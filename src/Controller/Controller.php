@@ -4,23 +4,24 @@ namespace Ibonly\Blog;
 
 class Controller
 {
-    public function addDashToTitle ($title)
-    {
-        return str_replace(' ', '-', $title);
-    }
 
     public function removeDashToTitle ($title)
     {
-        return str_replace('-', ' ', $title);
+        return str_replace('_', ' ', $title);
+    }
+
+    public function shortWord($content)
+    {
+        return implode(' ', array_slice(explode(' ', $key->$content), 0, 50));
     }
 
     public function removeAllDash ($object, $field, $content)
     {
-        foreach ($object as $key) {
-            $key->short = implode(' ', array_slice(explode(' ', $key->$content), 0, 50));
+        var_dump($object); die();
+        foreach ($object as $key => $values) {
             $key->link = $key->$field;
-            $key->$field = $this->removeDashToTitle($key->$field);
         }
+
         return $object;
     }
 
@@ -31,5 +32,12 @@ class Controller
         $content->$field = $this->removeDashToTitle($content->$field);
 
         return $content;
+    }
+
+    public function clean($string) 
+    {
+        $string = str_replace(' ', '-', trim(strtolower($string))); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
     }
 }
